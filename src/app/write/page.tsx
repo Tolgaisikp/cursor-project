@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
@@ -22,6 +22,14 @@ const draftStories = [
 ];
 
 export default function WritePage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <WritePageContent />
+    </Suspense>
+  );
+}
+
+function WritePageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [title, setTitle] = useState('');
