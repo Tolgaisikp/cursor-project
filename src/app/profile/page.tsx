@@ -5,7 +5,7 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FiTwitter, FiGithub, FiLinkedin, FiBookmark, FiHeart } from 'react-icons/fi';
+import { FiTwitter, FiGithub, FiLinkedin, FiHeart } from 'react-icons/fi';
 import EditProfileModal from '../../components/EditProfileModal';
 
 export default function ProfilePage() {

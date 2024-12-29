@@ -94,15 +94,15 @@ export default function BlogDetailClient({ blog }: BlogDetailClientProps) {
               remarkPlugins={[remarkGfm]}
               rehypePlugins={[rehypeRaw, rehypeSanitize]}
               components={{
-                h1: ({ node, ...props }) => <h1 className="text-3xl font-bold mb-4" {...props} />,
-                h2: ({ node, ...props }) => <h2 className="text-2xl font-bold mb-3" {...props} />,
-                h3: ({ node, ...props }) => <h3 className="text-xl font-bold mb-2" {...props} />,
-                p: ({ node, ...props }) => <p className="mb-4 leading-relaxed" {...props} />,
-                ul: ({ node, ...props }) => <ul className="list-disc pl-6 mb-4 space-y-2" {...props} />,
-                li: ({ node, ...props }) => <li className="mb-1" {...props} />,
-                strong: ({ node, ...props }) => <strong className="font-bold" {...props} />,
-                code: ({ node, inline, className, children, ...props }) => {
-                  const match = /language-(\w+)/.exec(className || '');
+                h1: ({ ...props }) => <h1 className="text-3xl font-bold mb-4" {...props} />,
+                h2: ({ ...props }) => <h2 className="text-2xl font-bold mb-3" {...props} />,
+                h3: ({ ...props }) => <h3 className="text-xl font-bold mb-2" {...props} />,
+                p: ({ ...props }) => <p className="mb-4 leading-relaxed" {...props} />,
+                ul: ({ ...props }) => <ul className="list-disc pl-6 mb-4 space-y-2" {...props} />,
+                li: ({ ...props }) => <li className="mb-1" {...props} />,
+                strong: ({ ...props }) => <strong className="font-bold" {...props} />,
+                code: ({ inline, children, ...props }) => {
+                  const match = /language-(\w+)/.exec(props.className || '');
                   const language = match ? match[1] : '';
                   
                   if (inline) {

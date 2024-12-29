@@ -28,7 +28,6 @@ export default function WritePage() {
   const [content, setContent] = useState('');
   const [category, setCategory] = useState<"technology" | "software" | "design" | "productivity">('technology');
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [isWriting, setIsWriting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Load draft data when editing
