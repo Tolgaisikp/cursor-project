@@ -116,7 +116,7 @@ export default function BlogDetailClient({ blog }: BlogDetailClientProps) {
                         code={String(children).replace(/\n$/, '')}
                         language={language || 'typescript'}
                       >
-                        {({ className, style, tokens, getLineProps, getTokenProps }) => (
+                        {({ style, tokens, getLineProps, getTokenProps }) => (
                           <pre className="rounded-lg p-4 overflow-x-auto bg-[#F8F9FC]" style={style}>
                             {tokens.map((line, i) => (
                               <div key={i} {...getLineProps({ line })}>
