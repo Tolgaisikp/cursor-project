@@ -45,14 +45,18 @@ export const markAsRead = (notificationId: number) => {
 };
 
 // Tüm bildirimleri okundu olarak işaretle
-export const markAllAsRead = () => {
-  MOCK_NOTIFICATIONS = MOCK_NOTIFICATIONS.map(notification => ({
-    ...notification,
-    read: true
-  }));
-};
+export function markAllAsRead() {
+  MOCK_NOTIFICATIONS.forEach(notification => {
+    notification.read = true;
+  });
+}
 
 // Okunmamış bildirim sayısını al
-export const getUnreadCount = () => {
+export function getUnreadCount() {
   return MOCK_NOTIFICATIONS.filter(notification => !notification.read).length;
-}; 
+}
+
+// Tüm bildirimleri temizle
+export function clearNotifications() {
+  MOCK_NOTIFICATIONS = [];
+}

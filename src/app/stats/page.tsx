@@ -5,10 +5,22 @@ import Footer from '../../components/Footer';
 import { FiTrendingUp, FiUsers, FiEye, FiHeart } from 'react-icons/fi';
 import BlogCard from '../../components/BlogCard';
 import { MOCK_BLOGS } from '../../data/blogs';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 export default function StatsPage() {
   // En popüler 3 blogu göster
   const topStories = MOCK_BLOGS.slice(0, 3);
+
+  // Görüntülenme verileri (son 7 gün)
+  const viewsData = [
+    { day: 'Pzt', views: 2100 },
+    { day: 'Sal', views: 1800 },
+    { day: 'Çar', views: 2800 },
+    { day: 'Per', views: 3200 },
+    { day: 'Cum', views: 2600 },
+    { day: 'Cmt', views: 1500 },
+    { day: 'Paz', views: 1200 },
+  ];
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -38,19 +50,47 @@ export default function StatsPage() {
 
           {/* Görüntülenme Grafiği */}
           <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
-            <h2 className="text-xl font-semibold mb-4">Görüntülenme Analizi</h2>
-            <div className="h-64 flex items-end justify-between gap-2">
-              {Array.from({ length: 7 }, (_, i) => (
-                <div key={i} className="flex-1">
-                  <div 
-                    className="bg-blue-500 bg-opacity-20 hover:bg-opacity-30 rounded-t transition-all"
-                    style={{ height: `${Math.random() * 100}%` }}
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-semibold">Görüntülenme Analizi</h2>
+              <div className="text-sm text-gray-500">Son 7 gün</div>
+            </div>
+            
+            <div className="h-80 w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={viewsData}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                  <XAxis 
+                    dataKey="day" 
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fill: '#6B7280' }}
                   />
-                  <div className="text-xs text-gray-500 text-center mt-2">
-                    {new Date(Date.now() - i * 86400000).toLocaleDateString('tr-TR', { weekday: 'short' })}
-                  </div>
-                </div>
-              ))}
+                  <YAxis 
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fill: '#6B7280' }}
+                    width={40}
+                  />
+                  <Tooltip 
+                    cursor={{ fill: 'rgba(0, 0, 0, 0.04)' }}
+                    content={({ active, payload }) => {
+                      if (active && payload?.[0]?.value) {
+                        return (
+                          <div className="bg-gray-800 text-white text-xs rounded py-1 px-2">
+                            {`${payload[0].value.toLocaleString()} görüntülenme`}
+                          </div>
+                        );
+                      }
+                      return null;
+                    }}
+                  />
+                  <Bar 
+                    dataKey="views" 
+                    fill="#3B82F6"
+                    radius={[4, 4, 0, 0]}
+                  />
+                </BarChart>
+              </ResponsiveContainer>
             </div>
           </div>
 
@@ -74,4 +114,4 @@ export default function StatsPage() {
       <Footer />
     </div>
   );
-} 
+}

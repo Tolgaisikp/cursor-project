@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FiSearch, FiEdit, FiBell, FiHeart, FiMessageSquare, FiCheck, FiUser, FiBookmark, FiFileText, FiBarChart2 } from 'react-icons/fi';
-import { MOCK_NOTIFICATIONS, markAsRead, markAllAsRead, getUnreadCount } from '../data/notifications';
+import { FiSearch, FiEdit, FiBell, FiHeart, FiMessageSquare, FiCheck, FiUser, FiBookmark, FiFileText, FiBarChart2, FiTrash2 } from 'react-icons/fi';
+import { MOCK_NOTIFICATIONS, markAsRead, markAllAsRead, getUnreadCount, clearNotifications } from '../data/notifications';
 
 interface HeaderProps {
   onSearch?: (query: string) => void;
@@ -42,6 +42,12 @@ const Header = ({ onSearch }: HeaderProps) => {
   const handleMarkAllAsRead = () => {
     markAllAsRead();
     setNotifications([...MOCK_NOTIFICATIONS]);
+  };
+
+  const handleClearNotifications = () => {
+    clearNotifications();
+    setNotifications([...MOCK_NOTIFICATIONS]);
+    setShowNotifications(false);
   };
 
   const handleProfileClick = () => {
@@ -121,33 +127,51 @@ const Header = ({ onSearch }: HeaderProps) => {
                   </div>
                   
                   <div className="max-h-[400px] overflow-y-auto">
-                    {notifications.map((notification) => (
-                      <div 
-                        key={notification.id}
-                        className={`px-4 py-3 hover:bg-gray-50 flex items-start gap-3 cursor-pointer ${
-                          !notification.read ? 'bg-blue-50' : ''
-                        }`}
-                        onClick={() => handleNotificationRead(notification.id)}
-                      >
-                        <div className={`p-2 rounded-full ${
-                          notification.type === 'like' ? 'bg-red-100' : 'bg-blue-100'
-                        }`}>
-                          {notification.type === 'like' ? (
-                            <FiHeart className="text-red-500" />
-                          ) : (
-                            <FiMessageSquare className="text-blue-500" />
-                          )}
-                        </div>
-                        <div>
-                          <p className="text-sm">
-                            <span className="font-medium">{notification.user}</span>
-                            {' '}{notification.content}
-                          </p>
-                          <span className="text-xs text-gray-500">{notification.time}</span>
-                        </div>
+                    {notifications.length === 0 ? (
+                      <div className="px-4 py-3 text-center text-gray-500">
+                        Bildirim bulunmuyor
                       </div>
-                    ))}
+                    ) : (
+                      notifications.map((notification) => (
+                        <div 
+                          key={notification.id}
+                          className={`px-4 py-3 hover:bg-gray-50 flex items-start gap-3 cursor-pointer ${
+                            !notification.read ? 'bg-blue-50' : ''
+                          }`}
+                          onClick={() => handleNotificationRead(notification.id)}
+                        >
+                          <div className={`p-2 rounded-full ${
+                            notification.type === 'like' ? 'bg-red-100' : 'bg-blue-100'
+                          }`}>
+                            {notification.type === 'like' ? (
+                              <FiHeart className="text-red-500" />
+                            ) : (
+                              <FiMessageSquare className="text-blue-500" />
+                            )}
+                          </div>
+                          <div>
+                            <p className="text-sm">
+                              <span className="font-medium">{notification.user}</span>
+                              {' '}{notification.content}
+                            </p>
+                            <span className="text-xs text-gray-500">{notification.time}</span>
+                          </div>
+                        </div>
+                      ))
+                    )}
                   </div>
+                  
+                  {notifications.length > 0 && (
+                    <div className="px-4 py-2 border-t border-gray-100">
+                      <button
+                        onClick={handleClearNotifications}
+                        className="w-full py-2 text-sm text-red-500 hover:text-red-600 flex items-center justify-center gap-2"
+                      >
+                        <FiTrash2 className="text-lg" />
+                        <span>Bildirimleri Temizle</span>
+                      </button>
+                    </div>
+                  )}
                 </div>
               </>
             )}
@@ -208,4 +232,4 @@ const Header = ({ onSearch }: HeaderProps) => {
   );
 };
 
-export default Header; 
+export default Header;

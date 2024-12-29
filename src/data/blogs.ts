@@ -4,6 +4,7 @@ export interface Blog {
   author: {
     name: string;
     image: string;
+    bio: string;
   };
   title: string;
   summary: string;
@@ -12,6 +13,8 @@ export interface Blog {
   publishDate: string;
   likes: number;
   category: 'technology' | 'software' | 'design' | 'productivity';
+  isDraft?: boolean;
+  lastEdited?: string;
 }
 
 // Mock blog verileri
@@ -25,16 +28,44 @@ export let MOCK_BLOGS: Blog[] = Array.from({ length: 50 }, (_, i) => {
     author: {
       name: `Yazar ${i + 1}`,
       image: '/default-avatar.png',
+      bio: 'Bu yazarın biyografisi',
     },
     title: `${getCategoryTitle(category)} Blog ${i + 1}`,
     summary: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-    
-    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-    
-    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.
-    
-    Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.`,
+    content: `# ${getCategoryTitle(category)}: Blog ${i + 1}
+
+## Giriş
+
+Bu yazıda, ${category} alanındaki son gelişmeleri ve önemli konuları ele alacağız.
+
+### Önemli Noktalar
+
+- Birinci önemli nokta
+- İkinci önemli nokta
+- Üçüncü önemli nokta
+
+## Detaylı Analiz
+
+Lorem ipsum dolor sit amet, **consectetur** adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+
+### Alt Başlık
+
+1. Birinci madde
+2. İkinci madde
+3. Üçüncü madde
+
+## Sonuç
+
+*İtalik* ve **kalın** yazı tipleri ile markdown'ın düzgün çalıştığını test edebiliriz.
+
+> Bu bir alıntıdır. Markdown formatında görüntülenmelidir.
+
+\`\`\`javascript
+// Bu bir kod bloğudur
+const test = "Markdown çalışıyor";
+console.log(test);
+\`\`\`
+`,
     coverImage: '/image.webp',
     publishDate: new Date(Date.now() - i * 86400000).toISOString(),
     likes: Math.floor(Math.random() * 100),
@@ -60,6 +91,7 @@ export const addBlog = (blog: Omit<Blog, 'id' | 'author' | 'likes' | 'publishDat
     author: {
       name: 'Yeni Yazar',
       image: '/default-avatar.png',
+      bio: 'Bu yazarın biyografisi',
     },
     ...blog,
     publishDate: new Date().toISOString(),
